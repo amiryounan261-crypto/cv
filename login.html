@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+</head>
+<body>
+  <h2>تسجيل الدخول</h2>
+  <input type="email" id="email" placeholder="البريد الإلكتروني"><br><br>
+  <input type="password" id="password" placeholder="كلمة المرور"><br><br>
+  <button onclick="login()">دخول</button>
+  <p>ليس لديك حساب؟ <a href="signup.html">سجّل الآن</a></p>
+
+  <script>
+    // إعداد Firebase
+    var firebaseConfig = {
+      apiKey: "ضع مفتاح API هنا",
+      authDomain: "cv-builder-40e30.firebaseapp.com",
+      projectId: "cv-builder-40e30",
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // دالة تسجيل الدخول
+    function login() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          alert("تم تسجيل الدخول بنجاح");
+          window.location.href = "dashboard.html"; // بعد الدخول
+        })
+        .catch((error) => {
+          alert("خطأ: " + error.message);
+        });
+    }
+  </script>
+</body>
+</html>

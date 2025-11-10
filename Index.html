@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>منشئ السيرة الذاتية</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>منشئ السيرة الذاتية</h1>
+
+  <form id="cvForm">
+    <input type="text" placeholder="الاسم الكامل" id="name" required>
+    <input type="text" placeholder="المسمى الوظيفي" id="title">
+    <textarea placeholder="نبذة عنك" id="about"></textarea>
+    <input type="text" placeholder="البريد الإلكتروني" id="email">
+    <input type="text" placeholder="رقم الهاتف" id="phone">
+    <input type="text" placeholder="رابط LinkedIn" id="linkedin">
+    <textarea placeholder="المهارات (افصلها بفواصل)" id="skills"></textarea>
+    <button type="submit">إنشاء السيرة الذاتية</button>
+  </form>
+
+  <hr>
+
+  <div id="cvOutput"></div>
+
+  <script src="script.js"></script>
+  
+<!-- مكتبة تحويل HTML إلى PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- زر لحفظ السيرة الذاتية كـ PDF -->
+<button onclick="downloadPDF()">تحميل PDF</button>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+  // إعداد Firebase
+  var firebaseConfig = {
+    apiKey: "ضع مفتاح API هنا",
+    authDomain: "cv-builder-40e30.firebaseapp.com",
+    databaseURL: "https://cv-builder-40e30-default-rtdb.firebaseio.com",
+    projectId: "cv-builder-40e30",
+    storageBucket: "cv-builder-40e30.appspot.com",
+    messagingSenderId: "رقم المرسل",
+    appId: "معرّف التطبيق"
+  };
+
+  // تهيئة Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // مرجع قاعدة البيانات
+  var database = firebase.database();
+</script>
+<script>
+  function saveCV() {
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var bio = document.getElementById("bio").value;
+
+    // تحقق أن الحقول ليست فارغة
+    if (name && email && bio) {
+      database.ref("cv").push({
+        name: name,
+        email: email,
+        bio: bio,
+        createdAt: new Date().toISOString()
+      }).then(() => {
+        alert("تم حفظ السيرة الذاتية بنجاح");
+      }).catch((error) => {
+        alert("حدث خطأ: " + error.message);
+      });
+    } else {
+      alert("يرجى ملء جميع الحقول");
+    }
+  }
+</script>
+</body>
+</html>
+`
